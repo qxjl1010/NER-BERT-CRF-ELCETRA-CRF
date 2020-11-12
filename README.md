@@ -1,5 +1,5 @@
 # NER-BERT-CRF-ELCETRA-CRF
-Named Entity Recognition using Bert+Crf and Electra+Crf
+Named Entity Recognition using Bert+Crf or Electra+Crf or (Bert or Electra as embedding)LSTM + Crf
 
 Using Tensorflow 1.15 + Keras 2.3.1 + bert4keras 0.8.8
 
