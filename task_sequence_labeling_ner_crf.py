@@ -16,7 +16,7 @@ maxlen = 256
 epochs = 1
 batch_size = 32
 bert_layers = 12
-learing_rate = 1e-5  
+learing_rate = 1e-4  
 crf_lr_multiplier = 1000  
 
 # bert setting
@@ -105,8 +105,10 @@ model = build_transformer_model(
 )
 
 output_layer = 'Transformer-%s-FeedForward-Norm' % (bert_layers - 1)
-output = model.get_layer(output_layer).output
-output = Dense(num_labels)(output)
+bert_output = model.get_layer(output_layer).output
+
+# overwrite if using bert as embedding
+output = Dense(num_labels)(bert_output)
 
 # electra setting
 # model = build_transformer_model(
@@ -115,10 +117,13 @@ output = Dense(num_labels)(output)
 #     model='electra'
 # )
 # output_layer = 'Transformer-%s-FeedForward-Norm' % (bert_layers - 1)
-# output = model.get_layer(output_layer).output
-# output = Dense(num_labels)(output)
+# electra_output = model.get_layer(output_layer).output
+# output = Dense(num_labels)(electra_output)
 
-
+# using bert or electra as embedding
+# Add 1 bidirectional LSTM
+# output = Bidirectional(LSTM(128, return_sequences=True))(bert_output)
+# output = TimeDistributed(Dense(128))(output)
 
 
 CRF = ConditionalRandomField(lr_multiplier=crf_lr_multiplier)
